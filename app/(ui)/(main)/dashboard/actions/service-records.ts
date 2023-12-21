@@ -50,9 +50,9 @@ export const getServiceRecords = async (
     let totalStaffCommission = 0;
 
     const normalizedRecs = records.map((record) => {
-      totalAmount += record.total;
+      totalAmount += record.service_price;
       totalTip += record.tip;
-      totalStaffCommission += record.staff_commission;
+      totalStaffCommission += record.staff_commission + record.tip;
 
       const r: ServiceRecordModel = {
         id: record._id.toString(),

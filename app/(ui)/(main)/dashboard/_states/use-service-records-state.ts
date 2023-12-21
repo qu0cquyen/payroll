@@ -7,6 +7,7 @@ import { immer } from "zustand/middleware/immer";
 import { getServiceRecords } from "../actions/service-records";
 import { LocalStorage } from "#/utils/local-storage";
 import useCalendarState from "./use-calendar-state";
+import { sliceResetFns } from "#/providers/reset-app-states";
 
 interface IUseServiceRecordState {
   loading: boolean;
@@ -27,6 +28,11 @@ const store = create(
 );
 
 const useServiceRecordState = () => {
+  sliceResetFns.add(() =>
+    store.setState({
+      ...defaultUseServiceRecordState,
+    })
+  );
   const { loading, serviceRecords, error } = store();
 
   const { selectedDate } = useCalendarState();

@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { userLogin } from "./actions/login";
 import { LocalStorage } from "#/utils/local-storage";
 import { useAuthContext } from "#/providers/authentication";
+import { resetAllSlices } from "#/providers/reset-app-states";
 
 const schema = yup.object({
   user_name: yup.string().required("User name is required"),
@@ -44,7 +45,16 @@ const useLoginState = () => {
     return;
   };
 
-  return { form, onSubmit };
+  const logOut = () => {
+    LocalStorage.removeAccessToken();
+    LocalStorage.removeRefreshToken();
+
+    resetAllSlices();
+
+    updateAuthentication && updateAuthentication(false);
+  };
+
+  return { form, onSubmit, logOut };
 };
 
 export default useLoginState;

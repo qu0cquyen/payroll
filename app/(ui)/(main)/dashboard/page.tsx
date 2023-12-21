@@ -107,14 +107,6 @@ const HomePage = () => {
           </DialogContent>
         </Dialog>
       </MobileLayout.Content>
-      <MobileLayout.Bottom
-        className="!p-0"
-        style={{
-          boxShadow: "0px 0px 1px #888888",
-        }}
-      >
-        <BottomNavigator />
-      </MobileLayout.Bottom>
     </MobileLayout>
   );
 };

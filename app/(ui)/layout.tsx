@@ -1,6 +1,5 @@
 "use client";
 
-import CircleSpinning from "#/components/circle-spinning";
 import { useAuthContext } from "#/providers/authentication";
 import { redirect, usePathname } from "next/navigation";
 import { useEffect } from "react";

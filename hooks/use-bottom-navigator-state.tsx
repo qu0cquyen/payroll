@@ -1,3 +1,4 @@
+import { sliceResetFns } from "#/providers/reset-app-states";
 import { DashboardIcon, PersonIcon } from "@radix-ui/react-icons";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -47,6 +48,12 @@ const store = create(
 );
 
 const useBottomNavigationState = () => {
+  sliceResetFns.add(() =>
+    store.setState({
+      ...defaultState,
+    })
+  );
+
   const { currentSelectedItem } = store();
 
   const onCurrentSelectedItemChanged = (selectedItem: BottomNavProps) => {

@@ -1,3 +1,4 @@
+import { sliceResetFns } from "#/providers/reset-app-states";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
@@ -20,6 +21,12 @@ const store = create(
 );
 
 const useCalendarState = () => {
+  sliceResetFns.add(() =>
+    store.setState({
+      ...defaultCalendarState,
+    })
+  );
+
   const { isCalendarOpen, selectedDate } = store();
 
   const onCalendarClick = () => {
