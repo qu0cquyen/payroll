@@ -1,0 +1,65 @@
+/* ./styles/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base and primary color from the pastel palette */
+    --color: #ffc0cb; /* Soft pastel pink as the new base color */
+
+    /* Primary variations */
+    --primary: #ffc0cb; /* Soft pastel pink */
+    --primary-dark: hsla(
+      345,
+      100%,
+      86%,
+      1
+    ); /* A slightly darker pastel pink for depth */
+    --primary-lightest: #ffd6e7; /* Lightest pastel pink for highlights */
+
+    /* Accent colors in pastel */
+    --accent-lightest: #f3e8ff; /* A very light pastel violet */
+    --accent-lighter: #e9d7fe; /* A light pastel violet */
+    --accent-darker: #c8a2c8; /* A muted pastel purple */
+    --accent-darkest: #b391b3; /* A darker shade of pastel purple */
+
+    /* Neutrals adapted to pastel */
+    --neutral-lightest: #f9f7fd; /* A very light pastel grey */
+    --neutral-lighter: #edeaf6; /* A light pastel grey */
+    --neutral-light: hsla(
+      240,
+      20%,
+      95%,
+      1
+    ); /* A light grey with a hint of blue */
+    --neutral-tints: hsla(248, 16%, 90%, 1); /* A muted pastel grey */
+    --neutral: #aec6cf; /* Light pastel blue */
+    --neutral-darker: #aca9b8; /* A darker pastel grey */
+    --neutral-darkest: #918e9b; /* Even darker pastel grey */
+
+    /* State colors in pastel */
+    --state-positive-light: #a7f3d0; /* Pastel green */
+    --state-positive: #bde4a7; /* Soft green */
+    --state-positive-dark: #92c695; /* Muted green */
+    --state-negative: #ffcad4; /* Soft red/pink */
+    --state-negative-light: #fff0f6; /* Very light pink */
+    --state-primary: #ffc0cb; /* Soft pastel pink */
+    --state-critical: #ffd6a5; /* Soft orange */
+    --state-informative: #99c6f3; /* Soft informative blue */
+
+    --foreground: #ffffff;
+
+    --toastify-toast-width: auto !important;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 248 16% 70%;
+    --muted-background: 0 0% 96%;
+
+    --radius-xs: 2px;
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+}
