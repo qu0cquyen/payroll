@@ -31,7 +31,15 @@ export const getServiceRecords = async (
       .find({
         user_id: new ObjectId(userId),
         created_at: {
-          $gte: date,
+          $gte: new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            0,
+            0,
+            0,
+            0
+          ),
           $lte: new Date(
             date.getFullYear(),
             date.getMonth(),

@@ -52,6 +52,7 @@ const useDialogState = () => {
       });
 
       refetch();
+      form.reset();
     } catch (e) {
       form.setError("root", {
         type: "manual",

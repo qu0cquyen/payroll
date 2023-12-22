@@ -34,7 +34,6 @@ const AddServiceRecord = (props: AddServiceRecordProps) => {
             className="w-full"
             onClick={() => {
               props.onClick && props.onClick();
-              form.reset();
             }}
           >
             Add
