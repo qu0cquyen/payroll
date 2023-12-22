@@ -1,3 +1,7 @@
+const {
+  withHydrationOverlay,
+} = require("@builder.io/react-hydration-overlay/next");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async redirects() {
@@ -11,4 +15,6 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withHydrationOverlay({
+  appRootSelector: "main",
+})(nextConfig);

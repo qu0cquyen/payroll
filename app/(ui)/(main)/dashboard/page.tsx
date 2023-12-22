@@ -22,11 +22,11 @@ import useServiceRecordState from "./_states/use-service-records-state";
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isMount, setIsMount] = useState<boolean>(false);
+  // const [isMount, setIsMount] = useState<boolean>(false);
 
-  useEffect(() => {
-    setIsMount(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsMount(true);
+  // }, []);
 
   const {
     isCalendarOpen,
@@ -36,7 +36,7 @@ const HomePage = () => {
     onSelectDate,
   } = useCalendarState();
 
-  return !isMount ? null : (
+  return (
     <MobileLayout spacingTop={45} spacingBottom={45}>
       <MobileLayout.Top>
         <AppBar>

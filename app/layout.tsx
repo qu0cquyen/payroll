@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "#/styles/styles.css";
 import AuthenticationProvider from "#/providers/authentication";
+import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthenticationProvider>{children}</AuthenticationProvider>
+        <HydrationOverlay>
+          <AuthenticationProvider>{children}</AuthenticationProvider>
+        </HydrationOverlay>
       </body>
     </html>
   );
