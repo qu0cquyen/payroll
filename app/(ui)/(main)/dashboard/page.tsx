@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader } from "#/components/ui/dialog";
 
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { CalendarIcon, PlusIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ServiceRecords from "./_components/service-records";
 import AddServiceRecord from "./_components/add-service-record";
@@ -22,6 +22,11 @@ import useServiceRecordState from "./_states/use-service-records-state";
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isMount, setIsMount] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMount(true);
+  }, []);
 
   const {
     isCalendarOpen,
@@ -31,7 +36,7 @@ const HomePage = () => {
     onSelectDate,
   } = useCalendarState();
 
-  return (
+  return !isMount ? null : (
     <MobileLayout spacingTop={45} spacingBottom={45}>
       <MobileLayout.Top>
         <AppBar>

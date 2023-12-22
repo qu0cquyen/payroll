@@ -25,6 +25,8 @@ export const getServiceRecords = async (
 
   const db = await client.db(process.env.MONGODB_DB_NAME);
 
+  console.log(date);
+
   try {
     const records = await db
       .collection("service_records")
