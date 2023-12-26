@@ -19,13 +19,14 @@ export const getServiceRecords = async (
     token
   );
 
-  const userId = (decodedData as { type: string; session: Session }).session.id;
-
-  const client = await clientPromise;
-
-  const db = await client.db(process.env.MONGODB_DB_NAME);
-
   try {
+    const userId = (decodedData as { type: string; session: Session }).session
+      .id;
+
+    const client = await clientPromise;
+
+    const db = await client.db(process.env.MONGODB_DB_NAME);
+
     const records = await db
       .collection("service_records")
       .find({
@@ -103,12 +104,14 @@ export const addServiceRecord = async ({
   serviceName,
   amount,
   tip,
+  rate,
 }: {
   token: string | null;
   customerName: string;
   serviceName: string;
   amount: number;
   tip: number;
+  rate: number;
 }) => {
   if (!token) return;
 
@@ -134,8 +137,8 @@ export const addServiceRecord = async ({
       service_price: amount,
       tip: tip,
       created_at: new Date(),
-      staff_commission: amount * 0.6,
-      staff_total: amount * 0.6 + tip,
+      staff_commission: amount * rate,
+      staff_total: amount * rate + tip,
       total: amount + tip,
     });
   } catch (e) {

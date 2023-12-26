@@ -28,6 +28,7 @@ export async function userLogin(username: string, password: string) {
     return {
       id: user._id.toString(),
       user_name: user.user_name,
+      rate: user.rate,
       accessToken: accessToken.token,
       refreshToken: refreshToken.token,
     };

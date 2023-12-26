@@ -5,6 +5,8 @@ import { userLogin } from "./actions/login";
 import { LocalStorage } from "#/utils/local-storage";
 import { useAuthContext } from "#/providers/authentication";
 import { resetAllSlices } from "#/providers/reset-app-states";
+import useCurrentUserInfoState from "#/hooks/use-current-user-info-state";
+import { AppUser } from "#/models/user-model";
 
 const schema = yup.object({
   user_name: yup.string().required("User name is required"),
@@ -15,6 +17,7 @@ type LoginFormData = yup.InferType<typeof schema>;
 
 const useLoginState = () => {
   const { updateAuthentication } = useAuthContext();
+  const { updateCurrentUser } = useCurrentUserInfoState();
 
   const form = useForm<LoginFormData>({
     mode: "onChange",
@@ -33,7 +36,15 @@ const useLoginState = () => {
       LocalStorage.setAccessToken(user.accessToken);
       LocalStorage.setRefreshToken(user.refreshToken);
 
-      updateAuthentication && updateAuthentication(true);
+      const appUser: AppUser = {
+        id: user.id,
+        userName: user.user_name,
+        rate: user.rate,
+      };
+
+      updateCurrentUser(appUser);
+
+      updateAuthentication && updateAuthentication(appUser);
 
       return;
     }
@@ -51,7 +62,7 @@ const useLoginState = () => {
 
     resetAllSlices();
 
-    updateAuthentication && updateAuthentication(false);
+    updateAuthentication && updateAuthentication(null);
   };
 
   return { form, onSubmit, logOut };

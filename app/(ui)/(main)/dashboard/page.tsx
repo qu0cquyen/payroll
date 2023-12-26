@@ -19,9 +19,11 @@ import { Calendar } from "#/components/ui/calendar";
 import { cn } from "#/utils/cn";
 import useCalendarState from "./_states/use-calendar-state";
 import useServiceRecordState from "./_states/use-service-records-state";
+import useCurrentUserInfoState from "#/hooks/use-current-user-info-state";
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   // const [isMount, setIsMount] = useState<boolean>(false);
 
   // useEffect(() => {

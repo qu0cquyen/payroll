@@ -1,13 +1,14 @@
 "use client";
 
 import useAuthState from "#/hooks/use-auth-state";
+import { AppUser } from "#/models/user-model";
 import { PropsWithChildren, createContext, useContext, useEffect } from "react";
 
 const AuthContext = createContext<{
-  isAuthenticated: boolean;
-  updateAuthentication?: (auth: boolean) => void;
+  isAuthenticated: AppUser | null;
+  updateAuthentication?: (auth: AppUser | null) => void;
 }>({
-  isAuthenticated: false,
+  isAuthenticated: null,
 });
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -15,7 +16,7 @@ export const useAuthContext = () => useContext(AuthContext);
 const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { isAuthenticated, setIsAuthenticated } = useAuthState();
 
-  const updateAuthentication = (auth: boolean) => {
+  const updateAuthentication = (auth: AppUser | null) => {
     setIsAuthenticated(auth);
   };
 

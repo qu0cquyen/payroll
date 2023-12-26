@@ -1,14 +1,17 @@
 "use server";
 
+import { AppUser } from "#/models/user-model";
 import clientPromise from "#/repositories/repositories";
 import { checkExpirationStatus, decodeSession } from "#/utils/jwt-generator";
 import { ObjectId } from "mongodb";
 
-export const userVerification = async (token: string) => {
+export const userVerification = async (
+  token: string
+): Promise<AppUser | null> => {
   const userToken = decodeSession(process.env.SECRET_ACCESS_TOKEN_KEY!, token);
 
   if (userToken.type !== "valid") {
-    return false;
+    return null;
   }
 
   const isExpired = await checkExpirationStatus({
@@ -19,7 +22,7 @@ export const userVerification = async (token: string) => {
   });
 
   if (isExpired === "expired") {
-    return false;
+    return null;
   }
 
   try {
@@ -30,11 +33,15 @@ export const userVerification = async (token: string) => {
       .collection("user")
       .findOne({ _id: new ObjectId(userToken.session.id) });
 
-    if (!user) return false;
+    if (!user) return null;
 
-    return true;
+    return {
+      id: user._id.toString(),
+      userName: user.user_name,
+      rate: user.rate,
+    };
   } catch (e) {
     console.error(e);
-    return false;
+    return null;
   }
 };

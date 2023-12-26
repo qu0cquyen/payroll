@@ -7,6 +7,7 @@ import {
 } from "../actions/service-records";
 import { LocalStorage } from "#/utils/local-storage";
 import useServiceRecordState from "./use-service-records-state";
+import useCurrentUserInfoState from "#/hooks/use-current-user-info-state";
 
 const schema = yup.object({
   customer_name: yup.string().required("Customer name is required"),
@@ -27,6 +28,8 @@ type CustomerRecord = yup.InferType<typeof schema>;
 
 const useDialogState = () => {
   const { refetch } = useServiceRecordState();
+
+  const { user } = useCurrentUserInfoState();
 
   const form = useForm<CustomerRecord>({
     mode: "onChange",
@@ -49,6 +52,7 @@ const useDialogState = () => {
         serviceName: formData.service,
         amount: formData.amount,
         tip: formData.tip,
+        rate: user?.rate ?? 0,
       });
 
       refetch();
