@@ -15,11 +15,13 @@ const schema = yup.object({
   amount: yup
     .number()
     .positive("Invalid number")
+    .min(0)
     .typeError("Amount must be a number")
     .required("Amount is required"),
   tip: yup
     .number()
     .positive("Invalid number")
+    .min(0)
     .typeError("Tip must be a number")
     .required("Tip is required"),
 });
@@ -45,18 +47,19 @@ const useDialogState = () => {
   const onSubmit: SubmitHandler<CustomerRecord> = async (formData) => {
     const token = LocalStorage.getAccessToken();
 
+    console.log(formData);
+
     try {
       await addServiceRecord({
         token: token,
         customerName: formData.customer_name,
         serviceName: formData.service,
-        amount: formData.amount,
-        tip: formData.tip,
+        amount: formData.amount ?? 0,
+        tip: formData.tip ?? 0,
         rate: user?.rate ?? 0,
       });
 
       refetch();
-      form.reset();
     } catch (e) {
       form.setError("root", {
         type: "manual",

@@ -18,8 +18,7 @@ import { Button } from "#/components/ui/button";
 import { Calendar } from "#/components/ui/calendar";
 import { cn } from "#/utils/cn";
 import useCalendarState from "./_states/use-calendar-state";
-import useServiceRecordState from "./_states/use-service-records-state";
-import useCurrentUserInfoState from "#/hooks/use-current-user-info-state";
+import { DatePickerWithRange } from "#/components/ui/date-range-picker";
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -47,6 +46,13 @@ const HomePage = () => {
       </MobileLayout.Top>
       <MobileLayout.Content>
         <div className="flex flex-col gap-4 items-center">
+          {/* <DatePickerWithRange
+            fromDate={selectedDate}
+            onSelect={(date) => {
+              date && onSelectDate(date);
+              onCalendarClose();
+            }}
+          /> */}
           <Button
             className={cn(
               "w-[280px] justify-start text-left font-normal ",
