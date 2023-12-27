@@ -3,9 +3,12 @@ import { AppUser } from "#/models/user-model";
 import { decodeSession } from "#/utils/jwt-generator";
 import { LocalStorage } from "#/utils/local-storage";
 import { useEffect, useState } from "react";
+import useCurrentUserInfoState from "./use-current-user-info-state";
 
 const useAuthState = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<AppUser | null>(null);
+
+  const { updateCurrentUser } = useCurrentUserInfoState();
 
   const token = LocalStorage.getAccessToken();
 
@@ -20,8 +23,13 @@ const useAuthState = () => {
         // Remove refresh token + access token
         LocalStorage.removeAccessToken();
         LocalStorage.removeRefreshToken();
+
+        updateCurrentUser(null);
+        setIsAuthenticated(null);
+        return;
       }
 
+      updateCurrentUser(user);
       setIsAuthenticated(user);
     });
 

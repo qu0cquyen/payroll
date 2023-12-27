@@ -24,7 +24,7 @@ const useCurrentUserInfoState = () => {
 
   const { user } = store();
 
-  const updateCurrentUser = (currentUser: AppUser) => {
+  const updateCurrentUser = (currentUser: AppUser | null) => {
     store.setState({
       user: currentUser,
     });

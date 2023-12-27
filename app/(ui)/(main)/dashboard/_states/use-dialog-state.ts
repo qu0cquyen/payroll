@@ -47,15 +47,13 @@ const useDialogState = () => {
   const onSubmit: SubmitHandler<CustomerRecord> = async (formData) => {
     const token = LocalStorage.getAccessToken();
 
-    console.log(formData);
-
     try {
       await addServiceRecord({
         token: token,
         customerName: formData.customer_name,
         serviceName: formData.service,
-        amount: formData.amount ?? 0,
-        tip: formData.tip ?? 0,
+        amount: formData.amount,
+        tip: formData.tip,
         rate: user?.rate ?? 0,
       });
 
