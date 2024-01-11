@@ -1,7 +1,19 @@
 import { Button } from "#/components/ui/button";
-import { Form } from "#/components/ui/form";
+import { Form, FormControl, FormField } from "#/components/ui/form";
 import InputControl from "#/components/ui/input-control";
+import SelectControl from "#/components/ui/select-control";
 import useDialogState from "../_states/use-dialog-state";
+
+const payments = [
+  {
+    name: "Cash",
+    value: "Cash",
+  },
+  {
+    name: "Card",
+    value: "Card",
+  },
+];
 
 interface AddServiceRecordProps {
   onClick?: () => void;
@@ -22,8 +34,27 @@ const AddServiceRecord = (props: AddServiceRecordProps) => {
           <p>Service: </p>
           <InputControl control={form.control} name={"service"} />
 
-          <p>Amount: </p>
-          <InputControl control={form.control} name={"amount"} type="number" />
+          <div className="flex justify-between gap-2">
+            <div className="w-1/2">
+              <p>Amount: </p>
+              <InputControl
+                className="h-fit py-[7px]"
+                control={form.control}
+                name={"amount"}
+                type="number"
+              />
+            </div>
+            <div className="w-1/2">
+              <p>Type: </p>
+              <SelectControl
+                control={form.control}
+                className="bg-white"
+                name={"payment_type"}
+                label={"Type"}
+                items={payments}
+              />
+            </div>
+          </div>
 
           <p>Tip: </p>
           <InputControl control={form.control} name={"tip"} type="number" />
@@ -32,6 +63,7 @@ const AddServiceRecord = (props: AddServiceRecordProps) => {
             type="submit"
             name="Add"
             className="w-full"
+            disable={!form.formState.isValid ? "default" : null}
             onClick={() => {
               props.onClick && props.onClick();
             }}

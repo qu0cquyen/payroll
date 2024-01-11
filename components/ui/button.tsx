@@ -41,7 +41,7 @@ const buttonVariants = cva(
         lg: "px-7 py-1 text-[16px] h-[48px] font-bold",
       },
       disable: {
-        default: "bg-neutral-lighter text-neutral-tints pointer-events-none",
+        default: "bg-neutral-lightest text-neutral-tints pointer-events-none",
       },
     },
     compoundVariants: [

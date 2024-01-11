@@ -42,7 +42,6 @@ const useServiceRecordState = () => {
   const fetchData = async () => {
     try {
       const records = await getServiceRecords(token, selectedDate);
-
       store.setState({ serviceRecords: records });
     } catch (e) {
       if (typeof e === "string") {

@@ -1,17 +1,19 @@
 import { sliceResetFns } from "#/providers/reset-app-states";
+import { DateRange } from "react-day-picker";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 const currentDate = new Date();
 
 interface IUseCalendarState {
-  isCalendarOpen: boolean;
-  selectedDate: Date;
+  selectedDate: DateRange;
 }
 
 const defaultCalendarState = {
-  isCalendarOpen: false,
-  selectedDate: currentDate,
+  selectedDate: {
+    from: currentDate,
+    to: currentDate,
+  },
 };
 
 const store = create(
@@ -27,31 +29,19 @@ const useCalendarState = () => {
     })
   );
 
-  const { isCalendarOpen, selectedDate } = store();
+  const { selectedDate } = store();
 
-  const onCalendarClick = () => {
+  const onSelectDate = (date: DateRange) => {
     store.setState({
-      isCalendarOpen: true,
-    });
-  };
-
-  const onCalendarClose = () => {
-    store.setState({
-      isCalendarOpen: false,
-    });
-  };
-
-  const onSelectDate = (date: Date) => {
-    store.setState({
-      selectedDate: date,
+      selectedDate: {
+        from: date.from,
+        to: date.to,
+      },
     });
   };
 
   return {
-    isCalendarOpen,
     selectedDate,
-    onCalendarClick,
-    onCalendarClose,
     onSelectDate,
   };
 };

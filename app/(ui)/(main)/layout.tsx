@@ -1,4 +1,5 @@
 import BottomNavigator from "#/components/bottom-navigator";
+import ResetAppStateProvider from "#/providers/reset-app-states";
 
 export default function MainLayout({
   children,
@@ -6,9 +7,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <ResetAppStateProvider>
       {children}
       <BottomNavigator />
-    </>
+    </ResetAppStateProvider>
   );
 }

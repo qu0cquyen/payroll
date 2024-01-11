@@ -10,6 +10,7 @@ export interface ServiceRecordModel {
   total: number;
   staffCommission: number;
   staffTotal: number;
+  paymentMethodName: string;
   createdAt: number;
 }
 

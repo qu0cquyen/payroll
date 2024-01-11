@@ -8,10 +8,12 @@ import {
 import { LocalStorage } from "#/utils/local-storage";
 import useServiceRecordState from "./use-service-records-state";
 import useCurrentUserInfoState from "#/hooks/use-current-user-info-state";
+import { useState } from "react";
 
 const schema = yup.object({
   customer_name: yup.string().required("Customer name is required"),
   service: yup.string().required("Service is required"),
+  payment_type: yup.string(),
   amount: yup
     .number()
     .positive("Invalid number")
@@ -39,6 +41,7 @@ const useDialogState = () => {
     defaultValues: {
       customer_name: "",
       service: "",
+      payment_type: "Cash",
       amount: 0,
       tip: 0,
     },
@@ -55,6 +58,7 @@ const useDialogState = () => {
         amount: formData.amount,
         tip: formData.tip,
         rate: user?.rate ?? 0,
+        paymentMethodName: formData.payment_type ?? "Cash",
       });
 
       refetch();

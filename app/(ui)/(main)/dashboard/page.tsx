@@ -23,19 +23,7 @@ import { DatePickerWithRange } from "#/components/ui/date-range-picker";
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // const [isMount, setIsMount] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   setIsMount(true);
-  // }, []);
-
-  const {
-    isCalendarOpen,
-    selectedDate,
-    onCalendarClick,
-    onCalendarClose,
-    onSelectDate,
-  } = useCalendarState();
+  const { selectedDate, onSelectDate } = useCalendarState();
 
   return (
     <MobileLayout spacingTop={45} spacingBottom={45}>
@@ -46,52 +34,13 @@ const HomePage = () => {
       </MobileLayout.Top>
       <MobileLayout.Content>
         <div className="flex flex-col gap-4 items-center">
-          {/* <DatePickerWithRange
-            fromDate={selectedDate}
+          <DatePickerWithRange
+            fromDate={selectedDate.from!}
+            toDate={selectedDate.to}
             onSelect={(date) => {
               date && onSelectDate(date);
-              onCalendarClose();
             }}
-          /> */}
-          <Button
-            className={cn(
-              "w-[280px] justify-start text-left font-normal ",
-              !selectedDate && "text-muted-foreground"
-            )}
-            outline={"primary"}
-            name={"Date Picker"}
-            onClick={() => onCalendarClick()}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />{" "}
-            <p className="text-neutral-darkest">
-              {selectedDate ? (
-                format(selectedDate, "PPP")
-              ) : (
-                <span>Pick a date</span>
-              )}
-            </p>
-          </Button>
-          <Dialog
-            open={isCalendarOpen}
-            onOpenChange={() => {
-              onCalendarClose();
-            }}
-          >
-            <DialogContent className=" rounded-md w-[95%] bg-white">
-              <Calendar
-                classNames={{
-                  day_selected: "text-white !bg-primary",
-                }}
-                mode="single"
-                selected={selectedDate!}
-                onSelect={(date) => {
-                  date && onSelectDate(date);
-                  onCalendarClose();
-                }}
-                initialFocus
-              />
-            </DialogContent>
-          </Dialog>
+          />
         </div>
 
         <ServiceRecords />
@@ -116,7 +65,11 @@ const HomePage = () => {
                 Add new record
               </DialogTitle>
             </DialogHeader>
-            <AddServiceRecord onClick={() => setIsOpen(false)} />
+            <AddServiceRecord
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            />
           </DialogContent>
         </Dialog>
       </MobileLayout.Content>

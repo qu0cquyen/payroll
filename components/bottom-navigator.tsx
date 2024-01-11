@@ -9,7 +9,7 @@ const BottomNavigator = () => {
 
   return (
     <div
-      className="flex fixed bottom-0 justify-evenly p-4 w-full"
+      className="z-50 bg-white flex fixed bottom-0 justify-evenly p-4 w-full"
       style={{
         boxShadow: "0px 0px 1px #888888",
       }}

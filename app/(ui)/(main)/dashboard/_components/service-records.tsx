@@ -12,6 +12,10 @@ import { isEmpty } from "lodash";
 import { useEffect } from "react";
 import useServiceRecordState from "../_states/use-service-records-state";
 import useCalendarState from "../_states/use-calendar-state";
+import { FontStyleIcon, IdCardIcon } from "@radix-ui/react-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 
 const ServiceRecords = () => {
   const { loading, serviceRecords, error, fetchData } = useServiceRecordState();
@@ -22,7 +26,7 @@ const ServiceRecords = () => {
   }, [selectedDate]);
 
   return (
-    <Table className="mt-2">
+    <Table className="mt-2 ">
       <TableHeader>
         <TableRow>
           <TableHead>Customer</TableHead>
@@ -39,7 +43,18 @@ const ServiceRecords = () => {
             return (
               <TableRow key={record.id}>
                 <TableCell>
-                  <p className="line-clamp-2 break-all">
+                  <p className="flex line-clamp-2 break-all gap-2 items-center">
+                    {record.paymentMethodName.toLowerCase() === "cash" ? (
+                      <FontAwesomeIcon
+                        icon={faDollarSign}
+                        className="text-primary"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faCreditCard}
+                        className="text-primary"
+                      />
+                    )}
                     {record.customerName}
                   </p>
                 </TableCell>

@@ -4,7 +4,6 @@ import * as yup from "yup";
 import { userLogin } from "./actions/login";
 import { LocalStorage } from "#/utils/local-storage";
 import { useAuthContext } from "#/providers/authentication";
-import { resetAllSlices } from "#/providers/reset-app-states";
 import useCurrentUserInfoState from "#/hooks/use-current-user-info-state";
 import { AppUser } from "#/models/user-model";
 
@@ -59,8 +58,6 @@ const useLoginState = () => {
   const logOut = () => {
     LocalStorage.removeAccessToken();
     LocalStorage.removeRefreshToken();
-
-    resetAllSlices();
 
     updateAuthentication && updateAuthentication(null);
   };

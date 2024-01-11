@@ -7,10 +7,12 @@ import {
   ServiceRecordList,
   ServiceRecordModel,
 } from "../model/service-record-model";
+import { DateRange } from "react-day-picker";
+import { isNil } from "lodash";
 
 export const getServiceRecords = async (
   token: string | null,
-  date: Date
+  date: DateRange
 ): Promise<ServiceRecordList | null> => {
   if (!token) return null;
 
@@ -27,29 +29,24 @@ export const getServiceRecords = async (
 
     const db = await client.db(process.env.MONGODB_DB_NAME);
 
+    if (isNil(date.from) || isNil(date.to)) {
+      throw new Error("Invalid incoming date");
+    }
+
+    const beginDate = new Date(
+      new Date(new Date(date.from).setUTCHours(0, 0, 0, 0)).toISOString()
+    );
+    const endDate = new Date(
+      new Date(new Date(date.to).setUTCHours(23, 59, 59, 999)).toISOString()
+    );
+
     const records = await db
       .collection("service_records")
       .find({
         user_id: new ObjectId(userId),
         created_at: {
-          $gte: new Date(
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate(),
-            0,
-            0,
-            0,
-            0
-          ),
-          $lte: new Date(
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate(),
-            23,
-            59,
-            59,
-            999
-          ),
+          $gte: beginDate,
+          $lte: endDate,
         },
       })
       .toArray();
@@ -67,15 +64,16 @@ export const getServiceRecords = async (
         id: record._id.toString(),
         userId: record.user_id.toString(),
         customerId: record.customer_id.toString(),
-        customerName: record.customer_name,
+        customerName: record.customer_name ?? "",
         serviceId: record.service_id.toString(),
-        serviceName: record.service_name,
-        servicePrice: record.service_price,
-        tip: record.tip,
-        total: record.total,
-        staffCommission: record.staff_commission,
-        staffTotal: record.staff_total,
-        createdAt: record.created_at,
+        serviceName: record.service_name ?? "",
+        servicePrice: record.service_price ?? "",
+        tip: record.tip ?? 0,
+        total: record.total ?? 0,
+        staffCommission: record.staff_commission ?? 0,
+        staffTotal: record.staff_total ?? 0,
+        paymentMethodName: record.payment_method_name ?? "Cash",
+        createdAt: record.created_at ?? "",
       };
 
       return r;
@@ -92,8 +90,6 @@ export const getServiceRecords = async (
       throw new Error(e);
     }
 
-    console.log(e);
-
     throw new Error((e as Error).message);
   }
 };
@@ -104,6 +100,7 @@ export const addServiceRecord = async ({
   serviceName,
   amount,
   tip,
+  paymentMethodName,
   rate,
 }: {
   token: string | null;
@@ -111,6 +108,7 @@ export const addServiceRecord = async ({
   serviceName: string;
   amount: number;
   tip: number;
+  paymentMethodName: string;
   rate: number;
 }) => {
   if (!token) return;
@@ -126,6 +124,11 @@ export const addServiceRecord = async ({
 
   const db = await client.db(process.env.MONGODB_DB_NAME);
 
+  const paymentObjectId =
+    paymentMethodName.toLowerCase() === "cash"
+      ? new ObjectId("659f12fb7c8b26f866a786bd")
+      : new ObjectId("659f12da7c8b26f866a786bb");
+
   try {
     await db.collection("service_records").insertOne({
       _id: new ObjectId(),
@@ -139,6 +142,8 @@ export const addServiceRecord = async ({
       created_at: new Date(),
       staff_commission: amount * rate,
       staff_total: amount * rate + tip,
+      payment_method_id: paymentObjectId,
+      payment_method_name: paymentMethodName,
       total: amount + tip,
     });
   } catch (e) {
